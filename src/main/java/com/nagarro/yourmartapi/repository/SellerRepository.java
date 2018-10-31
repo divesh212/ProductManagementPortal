@@ -7,6 +7,5 @@ import com.nagarro.yourmartapi.model.Seller;
 public interface SellerRepository {
 
 	void save(Seller seller);
-	List<Seller> getAllSeller();
-
+	List<Seller> getAllSeller(int offset,int limit);
 }
