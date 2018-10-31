@@ -10,5 +10,5 @@ public interface ProductRepository {
 	public Product getProduct(int id);
 	public Product updateProduct(Product product);
 	public void deleteProduct(int id);
-	public List<Product> getAllProduct();
+	public List<Product> getAllProduct(String searchKey, String searchQuery, String status, String category);
 }

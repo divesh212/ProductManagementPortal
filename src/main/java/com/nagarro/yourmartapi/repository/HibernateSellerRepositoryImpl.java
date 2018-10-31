@@ -1,6 +1,9 @@
 package com.nagarro.yourmartapi.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,8 +24,8 @@ public class HibernateSellerRepositoryImpl implements SellerRepository{
 	}
 	
 	@Override
-	public Seller getAllSeller() {
-		return em.find(Seller.class, 1);
+	public List<Seller> getAllSeller() {
+		Query query = em.createQuery("SELECT s FROM Seller s");
+		return (List<Seller>)query.getResultList();
 	}
-
 }
