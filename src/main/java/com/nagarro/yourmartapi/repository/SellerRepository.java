@@ -8,4 +8,5 @@ public interface SellerRepository {
 
 	void save(Seller seller);
 	List<Seller> getAllSeller(int offset,int limit);
+	Seller authenticate(int sellerId, String password);
 }

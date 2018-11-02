@@ -112,11 +112,11 @@ public class Product {
 	}
 
 	public String getAttribues() {
-		return attribues;
+		return attributes;
 	}
 
 	public void setAttribues(String attribues) {
-		this.attribues = attribues;
+		this.attributes = attribues;
 	}
 
 	public Category getCategory() {
@@ -136,7 +136,7 @@ public class Product {
 	private String instruction;
 	private String dimensions;
 	private String comment;
-	private String attribues;
+	private String attributes;
 	
 	@CreationTimestamp
 	private Date createdAt;

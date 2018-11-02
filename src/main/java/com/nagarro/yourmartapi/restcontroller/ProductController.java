@@ -23,7 +23,7 @@ public class ProductController {
 	
 	@GetMapping("/product")
 	public List<Product> getAllProduct(@RequestParam(value="offset",required=false,defaultValue="0") int offset,
-			   @RequestParam(value="limit",required=false,defaultValue="0") int limit,
+			   @RequestParam(value="limit",required=false,defaultValue="10") int limit,
 			   @RequestParam(value="sortBy",required=false) String sortBy,
 			   @RequestParam(value="searchKey",required=false) String searchKey,
 			   @RequestParam(value="searchQuery",required=false) String searchQuery,
@@ -34,7 +34,6 @@ public class ProductController {
 	
 	@PostMapping(path = "/product")
 	public void addProduct(@RequestBody Product product) {
-		System.out.println(product);
 		productRepository.save(product);
 	}
 	

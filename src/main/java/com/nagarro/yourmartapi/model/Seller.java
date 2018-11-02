@@ -1,11 +1,13 @@
 package com.nagarro.yourmartapi.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,7 +16,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Seller {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	private String companyName;
@@ -25,6 +27,7 @@ public class Seller {
 	private String phone;
 	private String gstNumber;
 	private int statusId;
+	private String token;
 
 	@CreationTimestamp
 	private Date createdAt;
@@ -32,6 +35,17 @@ public class Seller {
 	@UpdateTimestamp
 	private Date updatedAt;
 	
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
+	@PrePersist
+	private void ensureToken(){
+	    this.setToken(UUID.randomUUID().toString());
+	}
 	
 	public int getStatusId() {
 		return statusId;
