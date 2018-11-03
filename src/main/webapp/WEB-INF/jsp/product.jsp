@@ -2,7 +2,8 @@
 <%@ page isELIgnored="false" %>
 <!DOCTYPE html>
 <html>
- <head>
+
+<head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Page Title</title>
@@ -12,8 +13,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
- <body>
-   <form action="/admin/product" method="POST">
+
+<body>
+
+  <form action="/admin/product" method="POST">
     <table border="1">
       <tr>
         <th>id</th>
@@ -49,7 +52,7 @@
           </c:if>
           </td>
           <td>
-            <a href="product/details">Details</a>
+            <a href="product/${product.id}">Details</a>
           </td>
         </tr>
       </c:forEach>
@@ -90,19 +93,36 @@
    				</c:forEach>
   			</select>
 	    </div>
+	    
+	    <div class="input-group mb-3">
+  			<div class="input-group-prepend">
+  	   	    	<label class="input-group-text" for="inputGroupSelect01">Options</label>
+ 			</div>
+		    <select class="custom-select" id="inputGroupSelect01" name="category">
+    			<option value="null">Choose Category..</option>
+    			<c:forEach items="${categories}" var="category">
+   					<option value="${category.name}">${category.name}</option>
+   				</c:forEach>
+  			</select>
+	    </div>
 	  	
 	  	
 	  	<h3>Choose status:</h3>
-	  	<input type="radio" name="status" value="NEED_APPROVAL" ${needApprovalChecked}/>NEED_APPROVAL <br />
+	  	<input type="radio" name="status" value="NEW" ${newChecked}/>NEW <br />
 	  	<input type="radio" name="status" value="APPROVED" ${approvedChecked}/>APPROVED<br />
+	  	<input type="radio" name="status" value="REVIEW" ${reviewChecked}/>REVIEW<br />
 	  	<input type="radio" name="status" value="REJECTED" ${rejectedChecked}/>REJECTED <br />
 	  	
 	  	<h3>Sort By</h3>
-	  	<input type="radio" name="sortBy" value="id" ${idChecked}/>product ID<br />
-	  	<input type="radio" name="sortBy" value="createdAt" ${createdAtChecked}/>Registration Time<br />
+	  	<input type="radio" name="sortBy" value="mrp" ${mrpChecked}/>MRP<br />
+	  	<input type="radio" name="sortBy" value="ssp" ${sspChecked}/>SSP<br />
+	  	<input type="radio" name="sortBy" value="ymp" ${ympChecked}/>YMP<br />
+	  	<input type="radio" name="sortBy" value="createdAt" ${createdAtChecked}/>Created At<br />
+	  	<input type="radio" name="sortBy" value="updatedAt" ${updatedAtChecked}/>Updated At<br />
 		
 		<input type="submit" value="pessMe">
  	 </form>
   	
 </body>
- </html>
+
+</html>
