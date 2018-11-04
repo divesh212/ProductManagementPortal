@@ -14,4 +14,5 @@ public interface SellerRepository {
 	ArrayList<Integer> getAllSellerId();
 	ArrayList<String> getAllSellerCampanyName();
 	Seller getSeller(int id);
+	Boolean isAuthenticatedByToken(int id, String token);
 }

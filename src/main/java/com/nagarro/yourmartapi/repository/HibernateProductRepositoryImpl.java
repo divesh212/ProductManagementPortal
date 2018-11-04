@@ -31,7 +31,7 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 
 	@Override
 	public List<Product> getAllProduct(int offset, int limit, String sortBy, String searchKey, String searchQuery,
-			String status, String category, String token) {
+			int status, String category, String token) {
 		Query query = null;
 		String queryString = "SELECT p FROM Product p WHERE p.seller.token = '" + token + "' ";
 
@@ -40,7 +40,7 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 			queryString += "AND " + sq + " LIKE '%" + searchQuery + "%' ";
 		}
 
-		if (status != null) {
+		if (status >= 0) {
 			queryString += "AND p.status = '" + status + "' ";
 		}
 		if (category != null) {
@@ -68,7 +68,7 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 
 	@Override
 	public ArrayList<Product> getAllProduct(int offset, int limit, String sortBy, String searchKey, String searchQuery,
-			String status, String category, String sellerId, String sellerCompanyName) {
+			int status, String category, String sellerId, String sellerCompanyName) {
 		Query query = null;
 		boolean isWhereRequired = true;
 		String queryString = "SELECT p FROM Product p ";
@@ -79,7 +79,7 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 			isWhereRequired = false;
 		}
 
-		if (status != null) {
+		if (status >= 0) {
 			if (isWhereRequired) {
 				queryString += "WHERE p.status = '" + status + "' ";
 				isWhereRequired = false;
@@ -119,6 +119,13 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
 		return (ArrayList<Product>) query.getResultList();
+	}
+	
+	@Override
+	public void setStatus(String id, int i) {
+		String queryString = "UPDATE Product p SET p.status = " + i +" WHERE p.id = " + id;
+		Query query = em.createQuery(queryString);
+		query.executeUpdate();
 	}
 
 }

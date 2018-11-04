@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nagarro.yourmartapi.enums.ProductStatus;
 import com.nagarro.yourmartapi.model.Category;
 import com.nagarro.yourmartapi.model.Product;
 import com.nagarro.yourmartapi.repository.CategoryRepository;
@@ -44,6 +45,7 @@ public class AdminPanelProductController {
 								@RequestParam(value="sellerCompanyName",required=false) String sellerCompanyName){
 		
 		HttpSession session = request.getSession(false);
+		int productStatus = -1;
 		model.addAttribute("searchQuery", searchQuery);
 		if(searchKey!=null) {
 			String codeChecked = searchKey.equals("code") ? "checked" : " "; 
@@ -67,6 +69,7 @@ public class AdminPanelProductController {
 			
 		}
 		if(status!=null) {
+			productStatus = 1;
 			String newChecked = status.equals("NEW") ? "checked" : " "; 
 			model.addAttribute("newChecked", newChecked);
 			String approvedChecked = status.equals("APPROVED") ? "checked" : " "; 
@@ -83,7 +86,7 @@ public class AdminPanelProductController {
 			ArrayList<Integer> sellerIds = new ArrayList<>();
 			ArrayList<String> sellerCompanyNames = new ArrayList<>();
 			ArrayList<Category> categories = new ArrayList<>();
-			products = (ArrayList<Product>) productRepository.getAllProduct(offset, limit, sortBy, searchKey, searchQuery, status, category,sellerId,sellerCompanyName);
+			products = (ArrayList<Product>) productRepository.getAllProduct(offset, limit, sortBy, searchKey, searchQuery, productStatus, category,sellerId,sellerCompanyName);
 			sellerIds = (ArrayList<Integer>) sellerRepository.getAllSellerId();
 			sellerCompanyNames = (ArrayList<String>) sellerRepository.getAllSellerCampanyName();
 			categories = (ArrayList<Category>) categoryRepository.getAllCategory();
@@ -95,9 +98,22 @@ public class AdminPanelProductController {
 		}
 		return "redirect:/admin/login";
 	}
+	
+	@RequestMapping(value="/admin/product",method = RequestMethod.POST)
+	public String homePage(HttpServletRequest request, HttpServletResponse response) {
+		String[] ids = request.getParameterValues("cbox");
+		if(ids!=null) {
+			for(String value : ids) {
+				System.out.println(value);
+				// 1=>NEED_APPROVAL 2=>APPROVED 3=>REJECTED
+				productRepository.setStatus(value,ProductStatus.APPROVED.ordinal()+1);
+			}
+		}
+		return "redirect:/admin/product";
+	}
 
 	@RequestMapping(value="/admin/product/{productId}", method = RequestMethod.GET)
-	public String sellerDetailsPage(HttpServletRequest request, HttpServletResponse response,
+	public String productDetailsPage(HttpServletRequest request, HttpServletResponse response,
 									@PathVariable("productId") int id, ModelMap model) {
 		Product product = productRepository.getProduct(id);
 		model.addAttribute("product", product);

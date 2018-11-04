@@ -49,7 +49,6 @@ public class HibernateSellerRepositoryImpl implements SellerRepository {
 
 		queryString += "ORDER BY " + sortBy;
 		System.out.println(queryString);
-//		String queryString = "SELECT s FROM Seller s ORDER BY " + sortBy;
 		Query query = em.createQuery(queryString);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);
@@ -93,5 +92,12 @@ public class HibernateSellerRepositoryImpl implements SellerRepository {
 	@Override
 	public Seller getSeller(int id) {
 		return em.find(Seller.class, id);
+	}
+	
+	@Override
+	public Boolean isAuthenticatedByToken(int id, String token) {
+		String queryString = "SELECT s FROM Seller s WHERE s.id = '" + id + "' AND s.token = '" + token + "'";
+		Query query = em.createQuery(queryString);
+		return query.getSingleResult()!=null ? true : false ;
 	}
 }

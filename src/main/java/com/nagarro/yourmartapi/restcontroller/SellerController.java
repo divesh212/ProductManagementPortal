@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nagarro.yourmartapi.dto.SellerLoginResponse;
+import com.nagarro.yourmartapi.enums.SellerStatus;
+import com.nagarro.yourmartapi.exceptions.InvalidCredentialException;
+import com.nagarro.yourmartapi.exceptions.UnexpectedError;
 import com.nagarro.yourmartapi.model.Seller;
 import com.nagarro.yourmartapi.model.SellerLogin;
 import com.nagarro.yourmartapi.repository.SellerRepository;
@@ -20,28 +23,27 @@ public class SellerController {
 	@Autowired
 	private SellerRepository sellerRepository;
 
-//	@GetMapping("/seller")
-//	public List<Seller> getAllSeller(@RequestParam(value = "offset", required = false, defaultValue="0") int offset,
-//			@RequestParam(value = "limit", required = false, defaultValue="10") int limit) {
-//		return sellerRepository.getAllSeller(offset, limit);
-//	}
+	@Autowired
+	SellerLoginResponse sellerLoginResponse;
 
 	@PostMapping(path = "/seller")
 	public void addSeller(@RequestBody Seller seller) {
-		System.out.println(seller);
-		sellerRepository.save(seller);
+		try {
+			seller.setStatusId(SellerStatus.NEED_APPROVAL.ordinal()+1);
+			sellerRepository.save(seller);			
+		}catch(Exception ex) {
+			throw new UnexpectedError();
+		}
 	}
 	
 	@PostMapping(path = "/seller/login")
 	public ResponseEntity login(@RequestBody SellerLogin sellerLogin) {
-		System.out.println(sellerLogin.getid() +  "  " + sellerLogin.getPassword());
 		Seller seller = sellerRepository.authenticate(sellerLogin.getid(),sellerLogin.getPassword());
-		SellerLoginResponse sellerLoginResponse = new SellerLoginResponse();
-		if(seller!=null) {
-			sellerLoginResponse = Utility.convertModel(seller, SellerLoginResponse.class);			
-			return ResponseEntity.status(200).body(sellerLoginResponse);
+		if(seller==null) {
+			throw new InvalidCredentialException();
 		}
-		return ResponseEntity.badRequest().body("Invalid Credentials hai be");	
+		sellerLoginResponse = Utility.convertModel(seller, SellerLoginResponse.class);			
+		return ResponseEntity.status(200).body(sellerLoginResponse);
 	}
 
 }
