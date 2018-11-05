@@ -29,17 +29,6 @@
             border: 0px;
             outline: none !important;
         }
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            color: hsla(0, 0%, 100%, .75);
-            background-color: #24292e;
-            text-align: center;
-            padding-top: 11px;
-            padding-bottom: 11px;
-        }
 	</style>
 </head>
 	

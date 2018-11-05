@@ -10,4 +10,6 @@ public interface CategoryRepository {
 
 	public void save(Category category);
 
+	public void setName(int id, String name);
+
 }
