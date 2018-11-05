@@ -92,7 +92,6 @@ public class AdminPanelSellerController {
 									@PathVariable("sellerId") int id, ModelMap model,
 									@RequestParam(value="status",required = false) String status) {
 		if(status!=null) {
-			System.out.println(status + "  ssds" + id);
 			sellerRepository.setStatus(id, status);
 		}
 		

@@ -35,8 +35,8 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 		Query query = null;
 		String queryString = "SELECT p FROM Product p WHERE p.seller.token = '" + token + "' ";
 
-		if (searchKey != null) {
-			String sq = searchKey.equals("name") ? "p.name" : "p.code";
+		if(searchKey!=null && searchQuery!=null) {
+			String sq = searchKey.equals("name") ? "p.name" : (searchKey.equals("code")?"p.code":"p.id") ;
 			queryString += "AND " + sq + " LIKE '%" + searchQuery + "%' ";
 		}
 
@@ -73,9 +73,9 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 		boolean isWhereRequired = true;
 		String queryString = "SELECT p FROM Product p ";
 
-		if (searchKey != null) {
-			String sq = searchKey.equals("name") ? "p.name" : "p.code";
-			queryString += "WHERE " + sq + " = '" + searchQuery + "' ";
+		if(searchKey!=null && searchQuery!=null) {
+			String sq = searchKey.equals("name") ? "p.name" : (searchKey.equals("code")?"p.code":"p.id") ;
+			queryString += "WHERE " + sq + " LIKE '%" + searchQuery + "%' ";
 			isWhereRequired = false;
 		}
 
@@ -122,8 +122,8 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 	}
 	
 	@Override
-	public void setStatus(String id, int i) {
-		String queryString = "UPDATE Product p SET p.status = " + i +" WHERE p.id = " + id;
+	public void setStatus(String id, int i,String comment) {
+		String queryString = "UPDATE Product p SET p.status = " + i +" , p.comment = '" + comment +"' WHERE p.id = " + id;
 		Query query = em.createQuery(queryString);
 		query.executeUpdate();
 	}

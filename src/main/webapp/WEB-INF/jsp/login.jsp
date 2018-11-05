@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="main.js"></script>
 </head>
 <body>
@@ -20,6 +21,7 @@
               <label>Password</label>
               <input type="password" class="form-control" placeholder="Password" name="password">
             </div>
+             <div class="g-recaptcha" data-sitekey="6LeJpHgUAAAAALwNMJlQc8AlJRFVRdAeJ211puxd"></div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
     </div>

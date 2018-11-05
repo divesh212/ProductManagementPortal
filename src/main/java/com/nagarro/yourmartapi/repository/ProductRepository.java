@@ -14,5 +14,5 @@ public interface ProductRepository {
 	public List<Product> getAllProduct(int offset,int limit,String sortBy,String searchKey, String searchQuery, int status, String category, String token);
 	ArrayList<Product> getAllProduct(int offset, int limit, String sortBy, String searchKey, String searchQuery,
 			int status, String category, String sellerId, String sellerCompanyName);
-	public void setStatus(String value, int i);
+	public void setStatus(String value, int i, String comment);
 }

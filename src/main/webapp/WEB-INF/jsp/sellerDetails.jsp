@@ -128,7 +128,7 @@
         
         <div class="col-md-4">
         	<div style="padding-top:30px;">
-        	<form action="/admin/seller/${sellerId}">
+        	<form action="/admin/seller/${sellerId}" method="GET">
         		<div class="input-group mb-3">
   					<div class="input-group-prepend">
   					  <label class="input-group-text" for="inputGroupSelect01">Status</label>
