@@ -8,4 +8,5 @@ public interface ImageRepository {
 	List<Image> getImages(int productId);
 
 	void save(Image image);
+	void uploadImage(Image image);
 }

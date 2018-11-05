@@ -26,7 +26,9 @@ public class AdminPanelSellerController {
 	private SellerRepository sellerRepository;
 
 	@RequestMapping(value="/admin/seller",method = RequestMethod.GET)
-	public String getAllSeller(Model model,HttpServletRequest request,HttpServletResponse response, 
+	public String getAllSeller(Model model,HttpServletRequest request,HttpServletResponse response,
+								@RequestParam(value="offset",required=false,defaultValue="0") int offset,
+								@RequestParam(value="limit",required=false,defaultValue="10") int limit,
 								@RequestParam(value="status",required = false) String status, 
 								@RequestParam(value="searchQuery",required = false) String searchQuery,
 								@RequestParam(value="searchKey",required = false) String searchKey,
@@ -36,12 +38,12 @@ public class AdminPanelSellerController {
 		
 		model.addAttribute("searchQuery", searchQuery);
 		if(searchKey!=null) {
-			String companyChecked = searchKey.equals("COMPANY_NAME") ? "checked" : " "; 
-			model.addAttribute("companyChecked", companyChecked);
-			String ownerChecked = searchKey.equals("OWNER_NAME") ? "checked" : " "; 
-			model.addAttribute("ownerChecked", ownerChecked);
-			String phoneChecked = searchKey.equals("PHONE") ? "checked" : " "; 
-			model.addAttribute("phoneChecked", phoneChecked);
+			String companySelected = searchKey.equals("COMPANY_NAME") ? "selected" : " "; 
+			model.addAttribute("companySelected", companySelected);
+			String ownerSelected = searchKey.equals("OWNER_NAME") ? "selected" : " "; 
+			model.addAttribute("ownerSelected", ownerSelected);
+			String phoneSelected = searchKey.equals("PHONE") ? "selected" : " "; 
+			model.addAttribute("phoneSelected", phoneSelected);
 		}
 		if(sortBy!=null) {
 			String idChecked = sortBy.equals("id") ? "checked" : " "; 
@@ -60,12 +62,14 @@ public class AdminPanelSellerController {
 		}
 		
 		if (session != null && session.getAttribute("admin") != null) {
-			int offset = 0;
-			int limit = 10;
 			ArrayList<Seller> sellers = new ArrayList<>();
+			model.addAttribute("offset", offset);
 			sellers = (ArrayList<Seller>) sellerRepository.getAllSeller(offset, limit,sortBy,status,searchKey,searchQuery);
 			System.out.println("Sellers: "+sellers);
 			model.addAttribute("sellers", sellers);
+			Long totalSeller = sellerRepository.totalSeller();
+			int paginationSize = (int) (totalSeller/limit);
+			model.addAttribute("paginationSize", paginationSize);
 			return "seller";
 		}
 		return "redirect:/admin/login";
@@ -77,7 +81,7 @@ public class AdminPanelSellerController {
 		if(ids!=null) {
 			for(String value : ids) {
 				// 1=>NEED_APPROVAL 2=>APPROVED 3=>REJECTED
-				sellerRepository.setStatus(value,SellerStatus.APPROVED.ordinal()+1);
+				sellerRepository.setStatus(Integer.parseInt(value),(SellerStatus.APPROVED.ordinal()+1)+"");
 			}
 		}
 		return "redirect:/admin/seller";
@@ -85,7 +89,13 @@ public class AdminPanelSellerController {
 	
 	@RequestMapping(value="/admin/seller/{sellerId}", method = RequestMethod.GET)
 	public String sellerDetailsPage(HttpServletRequest request, HttpServletResponse response,
-									@PathVariable("sellerId") int id, ModelMap model) {
+									@PathVariable("sellerId") int id, ModelMap model,
+									@RequestParam(value="status",required = false) String status) {
+		if(status!=null) {
+			System.out.println(status + "  ssds" + id);
+			sellerRepository.setStatus(id, status);
+		}
+		
 		Seller seller = sellerRepository.getSeller(id);
 		model.addAttribute("seller", seller);
 		return "sellerDetails";

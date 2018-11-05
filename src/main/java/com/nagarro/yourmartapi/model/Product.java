@@ -15,7 +15,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Product {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	@ManyToOne

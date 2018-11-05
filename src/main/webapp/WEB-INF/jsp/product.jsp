@@ -16,7 +16,7 @@
 
 <body>
 
-  <form action="/admin/product" method="POST">
+ <%--  <form action="/admin/product" method="POST">
     <table border="1">
       <tr>
         <th>id</th>
@@ -121,7 +121,136 @@
 	  	<input type="radio" name="sortBy" value="updatedAt" ${updatedAtChecked}/>Updated At<br />
 		
 		<input type="submit" value="pessMe">
- 	 </form>
+ 	 </form> --%>
+ 	 
+ 	 <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <form action="/admin/product" method="POST">
+                    <table border="1">
+                        <tr>
+                            <th>id</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>mrp</th>
+                            <th>ssp</th>
+                            <th>ymp</th>
+                            <th>createdAt</th>
+                            <th>updatedAt</th>
+                            <th>SellerId</th>
+                            <th>SellerCompanyName</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                        </tr>
+                        <c:forEach items="${products}" var="product">
+                            <tr>
+                                <td>${product.id}</td>
+                                <td>${product.code}</td>
+                                <td>${product.name}</td>
+                                <td>${product.mrp}</td>
+                                <td>${product.ssp}</td>
+                                <td>${product.ymp}</td>
+                                <td>${product.createdAt}</td>
+                                <td>${product.updatedAt}</td>
+                                <td>${product.seller.id}</td>
+                                <td>${product.seller.companyName}</td>
+                                <td>${product.category.name}</td>
+                                <td>${product.status}</td>
+                                <td>
+                                    <c:if test="${product.status==1}">
+                                        <input type="checkbox" name="cbox" value="${product.id}">
+                                    </c:if>
+                                </td>
+                                <td>
+                                    <a href="product/${product.id}">Details</a>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                    <input type="submit" value="Approve">
+                </form>
+
+
+            </div>
+            <div class="col-md-4">
+
+            </div>
+        </div>
+    </div>
+
+
+    <form action="/admin/product" method="GET">
+        <h3>Search by</h3>
+        <input type="radio" name="searchKey" value="code" ${codeChecked}/>Code
+        <br />
+        <input type="radio" name="searchKey" value="name" ${nameChecked}/>Name
+        <br />
+        <input type="radio" name="searchKey" value="id" ${idChecked}/>Id
+        <br /> serach here:
+        <input type="text" name="searchQuery" value="${searchQuery}">
+
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="sellerId">
+                <option value="null">Choose seller id..</option>
+                <c:forEach items="${sellerIds}" var="sellerId">
+                    <option value="${sellerId}">${sellerId}</option>
+                </c:forEach>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="sellerCompanyName">
+                <option value="null">Choose Company name..</option>
+                <c:forEach items="${sellerCompanyNames}" var="sellerCompanyName">
+                    <option value="${sellerCompanyName}">${sellerCompanyName}</option>
+                </c:forEach>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            </div>
+            <select class="custom-select" id="inputGroupSelect01" name="category">
+                <option value="null">Choose Category..</option>
+                <c:forEach items="${categories}" var="category">
+                    <option value="${category.name}">${category.name}</option>
+                </c:forEach>
+            </select>
+        </div>
+
+
+        <h3>Choose status:</h3>
+        <input type="radio" name="status" value="NEW" ${newChecked}/>NEW
+        <br />
+        <input type="radio" name="status" value="APPROVED" ${approvedChecked}/>APPROVED
+        <br />
+        <input type="radio" name="status" value="REVIEW" ${reviewChecked}/>REVIEW
+        <br />
+        <input type="radio" name="status" value="REJECTED" ${rejectedChecked}/>REJECTED
+        <br />
+
+        <h3>Sort By</h3>
+        <input type="radio" name="sortBy" value="mrp" ${mrpChecked}/>MRP
+        <br />
+        <input type="radio" name="sortBy" value="ssp" ${sspChecked}/>SSP
+        <br />
+        <input type="radio" name="sortBy" value="ymp" ${ympChecked}/>YMP
+        <br />
+        <input type="radio" name="sortBy" value="createdAt" ${createdAtChecked}/>Created At
+        <br />
+        <input type="radio" name="sortBy" value="updatedAt" ${updatedAtChecked}/>Updated At
+        <br />
+
+        <input type="submit" value="pessMe">
+    </form>
   	
 </body>
 

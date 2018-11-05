@@ -70,7 +70,7 @@ public class HibernateSellerRepositoryImpl implements SellerRepository {
 	}
 
 	@Override
-	public void setStatus(String id, int i) {
+	public void setStatus(int id, String i) {
 		String queryString = "UPDATE Seller s SET s.statusId = " + i + " WHERE s.id = " + id;
 		System.out.println("Queryyyyy: "+ queryString);
 		Query query = em.createQuery(queryString);
@@ -99,5 +99,10 @@ public class HibernateSellerRepositoryImpl implements SellerRepository {
 		String queryString = "SELECT s FROM Seller s WHERE s.id = '" + id + "' AND s.token = '" + token + "'";
 		Query query = em.createQuery(queryString);
 		return query.getSingleResult()!=null ? true : false ;
+	}
+	
+	@Override
+	public Long totalSeller() {
+	    return (Long) em.createQuery("SELECT COUNT(s) FROM Seller s").getSingleResult();
 	}
 }

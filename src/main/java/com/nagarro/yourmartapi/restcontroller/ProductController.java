@@ -91,6 +91,8 @@ public class ProductController {
 		try {
 			if (sellerRepository.isAuthenticatedByToken(product.getSeller().getId(), token)) {
 				try {
+					product.setStatus(ProductStatus.NEW.ordinal()+1);
+					product.setId(id);
 					updatedProduct = productRepository.updateProduct(product);
 				} catch (Exception e) {
 					throw new BadRequest();
