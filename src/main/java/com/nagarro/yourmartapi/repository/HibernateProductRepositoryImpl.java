@@ -49,6 +49,7 @@ public class HibernateProductRepositoryImpl implements ProductRepository {
 		if (sortBy != null) {
 			queryString += "ORDER BY " + sortBy;
 		}
+		System.out.println("QQQQ:"+queryString);
 		query = em.createQuery(queryString);
 		query.setFirstResult(offset);
 		query.setMaxResults(limit);

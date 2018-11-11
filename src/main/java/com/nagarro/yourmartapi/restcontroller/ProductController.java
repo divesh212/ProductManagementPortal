@@ -48,13 +48,19 @@ public class ProductController {
 		try {
 			int productStatus = -1;
 			if (status != null) {
-				productStatus = ProductStatus.valueOf(status).ordinal();
+				System.out.println("here1");
+				System.out.println("status: "+status);
+				//int statuss=Integer.parseInt(status);
+				//productStatus = ProductStatus.valueOf(status).ordinal();
+				productStatus = (int) Integer.parseInt(status);
+				System.out.println("here2");
 			}
 			List<Product> products = productRepository.getAllProduct(offset, limit, sortBy, searchKey, searchQuery,
 					productStatus, category, token);
 			List<ProductResponse> productListResponse = Utility.convertModelList(products, ProductResponse.class);
 			return productListResponse;
 		} catch (Exception e) {
+			System.out.println("exceptionnnnn:"+e);
 			throw new UnexpectedError();
 		}
 	}
